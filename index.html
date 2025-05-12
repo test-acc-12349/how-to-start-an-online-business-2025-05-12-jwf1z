@@ -16,7 +16,11 @@
 </head>
 <body class="font-[Inter] antialiased bg-white text-gray-900">
     <!-- Previous HTML content remains exactly the same until the script tag -->
-    <script type="module">
+    
+    <script>
+        // Move environment variables to constants
+        const WEBHOOK_URL = 'https://hook.eu1.make.com/eouams7nvj4oh1pc9vkidzogw63nlc02';
+        
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuButton = document.querySelector('header nav .mobile-menu-button');
             const mobileMenu = document.querySelector('header nav .mobile-menu');
@@ -53,7 +57,7 @@
                 const email = document.getElementById('email').value;
                 
                 try {
-                    const response = await fetch(import.meta.env.VITE_WEBHOOK_URL, {
+                    const response = await fetch(WEBHOOK_URL, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
