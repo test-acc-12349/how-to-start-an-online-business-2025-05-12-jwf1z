@@ -3,14 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Landing Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How To Start An Online Business - 3 Step Business Plan Generator</title>
     <meta name="description" content="Generate your online business plan in 5 minutes with our free 3-step business plan generator. Get ideas, create a plan, and find inspiration.">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -142,6 +134,59 @@
                         </div>
                         <h3 class="text-xl font-semibold mb-4">Market Intelligence</h3>
                         <p class="text-gray-600">Access real-time market data, competitor analysis, and industry trends from our extensive database.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="generator" class="py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8">Generate Your Business Plan</h2>
+                    <p class="text-xl text-gray-600 mb-12">Enter your email to access our AI-powered business plan generator and create your customized plan in minutes.</p>
+                    
+                    <form id="emailForm" class="space-y-6">
+                        <div>
+                            <input type="email" id="email" required
+                                class="w-full px-6 py-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter your email address">
+                        </div>
+                        <button type="submit"
+                            class="w-full md:w-auto px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                            Start Generating
+                        </button>
+                    </form>
+
+                    <div id="generatorSteps" class="hidden mt-12">
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <form id="businessPlanForm" class="space-y-6">
+                                <div>
+                                    <label class="block text-left text-gray-700 mb-2">What type of business are you planning to start?</label>
+                                    <input type="text" id="businessType" required
+                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-left text-gray-700 mb-2">What is your target market?</label>
+                                    <input type="text" id="targetMarket" required
+                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-left text-gray-700 mb-2">What is your initial budget range?</label>
+                                    <select id="budget" required
+                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Select a range</option>
+                                        <option value="0-5000">$0 - $5,000</option>
+                                        <option value="5000-10000">$5,000 - $10,000</option>
+                                        <option value="10000-50000">$10,000 - $50,000</option>
+                                        <option value="50000+">$50,000+</option>
+                                    </select>
+                                </div>
+                                <button type="submit"
+                                    class="w-full md:w-auto px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                                    Generate Business Plan
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -342,8 +387,63 @@
                     });
                 });
             }
+
+            const emailForm = document.getElementById('emailForm');
+            const generatorSteps = document.getElementById('generatorSteps');
+            const businessPlanForm = document.getElementById('businessPlanForm');
+
+            emailForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                
+                try {
+                    const response = await fetch(import.meta.env.VITE_WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email })
+                    });
+
+                    if (response.ok) {
+                        emailForm.classList.add('hidden');
+                        generatorSteps.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('There was an error submitting your email. Please try again.');
+                }
+            });
+
+            businessPlanForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const businessType = document.getElementById('businessType').value;
+                const targetMarket = document.getElementById('targetMarket').value;
+                const budget = document.getElementById('budget').value;
+
+                try {
+                    const response = await fetch(import.meta.env.VITE_WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            businessType,
+                            targetMarket,
+                            budget
+                        })
+                    });
+
+                    if (response.ok) {
+                        alert('Your business plan is being generated. We will send it to your email shortly.');
+                        businessPlanForm.reset();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('There was an error generating your business plan. Please try again.');
+                }
+            });
         });
     </script>
-</body>
 </body>
 </html>
