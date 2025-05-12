@@ -1,0 +1,16 @@
+{
+  "name": "business-plan-ai",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vite": "^5.0.0",
+    "axios": "^1.6.2",
+    "openai": "^4.0.0"
+  }
+}
