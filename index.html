@@ -439,13 +439,15 @@
                 });
             }
 
+            let userEmail = '';
+
             const emailForm = document.getElementById('emailForm');
             const generatorSteps = document.getElementById('generatorSteps');
             const businessPlanForm = document.getElementById('businessPlanForm');
 
             emailForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const email = document.getElementById('email').value;
+                userEmail = document.getElementById('email').value;
                 
                 try {
                     const response = await fetch(import.meta.env.VITE_WEBHOOK_URL, {
@@ -453,7 +455,10 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ email })
+                        body: JSON.stringify({ 
+                            email: userEmail,
+                            formType: 'email-submission'
+                        })
                     });
 
                     if (response.ok) {
@@ -470,7 +475,8 @@
                 e.preventDefault();
                 
                 const formData = {
-                    email: document.getElementById('email').value,
+                    email: userEmail,
+                    formType: 'business-plan-submission',
                     businessModel: document.getElementById('businessModel').value,
                     businessDescription: document.getElementById('businessDescription').value,
                     targetAudience: document.getElementById('targetAudience').value,
@@ -484,7 +490,6 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
                         },
                         body: JSON.stringify(formData)
                     });
